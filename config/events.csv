@@ -1,0 +1,7 @@
+event_id,market_type,policy_name,official_public_date,event_date,alternative_event_date,sample_role,official_source
+A,mandatory,"2021、2022年度全国碳排放权交易发电行业配额总量和分配方案",2023-03-15,2023-03-15,2023-03-16,core,https://www.mee.gov.cn/xxgk2018/xxgk/xxgk03/202303/t20230315_1019707.html
+B,voluntary,"首批4项温室气体自愿减排项目方法学",2023-10-24,2023-10-24,,core,https://www.mee.gov.cn/xxgk2018/xxgk/xxgk06/202310/t20231024_1043877.html
+C,mandatory,"碳排放权交易管理暂行条例",2024-02-04,2024-02-05,,core,https://www.gov.cn/yaowen/liebiao/202402/content_6930177.htm
+D,mandatory,"2023、2024年度发电行业配额方案（征求意见稿）",2024-07-02,2024-07-02,2024-07-03,core,https://www.mee.gov.cn/xxgk2018/xxgk/xxgk06/202407/t20240702_1080579.html
+F,voluntary,"绿证与自愿减排市场衔接通知",2024-08-26,2024-08-27,2024-09-11,supplementary,https://www.gov.cn/zhengce/zhengceku/202409/content_6973736.htm
+E,mandatory,"2023、2024年度发电行业配额方案（正式稿）",2024-10-21,2024-10-21,2024-10-16,core,https://www.mee.gov.cn/xxgk2018/xxgk/xxgk03/202410/t20241021_1089750.html

@@ -1,0 +1,25 @@
+.DS_Store
+.idea/
+.vscode/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Licensed, purchased, or personally supplied research data
+*.xlsx
+*.xls
+*.dta
+*.sav
+*.parquet
+*.feather
+*.docx
+data/raw/**
+data/processed/**
+
+# Generated analysis outputs
+outputs/**
+reports/generated/**
+
+# Keep documentation placeholders
+!data/README.md
