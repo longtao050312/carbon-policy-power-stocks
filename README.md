@@ -15,16 +15,18 @@
 
 - [x] 五项核心政策和一个补充政策的官方日期已核查；
 - [x] 事件研究窗口、文本变量和连接方案已确定；
-- [x] CSMAR试导出字段已检查；
-- [x] CnOpenData股吧样例字段已检查；
-- [x] 已提供事件研究和股吧清洗脚本骨架；
-- [ ] 重新导出包含日期与收益率的CSMAR数据；
-- [ ] 复核最终A股发电公司样本和事前业务暴露；
-- [ ] 采购政策窗口内的全量股吧主帖；
-- [ ] 计算并核验实证结果；
-- [ ] 将真实结果填回论文第五、六章。
+- [x] CSMAR 行情已合并为 99,275 行、86 个 A 股代码（2021-01-04 至 2025-12-31），市场收益取 `Markettype = 21`；
+- [x] 公司—事件样本已核定 484 个（A 80、B 80、C 81、D 81、E 81、F 81），剔除台账与停牌缺口已保存；
+- [x] 事件研究已完成，稳健性、事前市值分组与极值核查已完成；
+- [x] CnOpenData 股吧样例字段与发帖密度已体检；
+- [x] 论文第五章已按实测结果填表；
+- [ ] 逐事件煤电暴露与公告前 CCER 适用项目分组；
+- [ ] 按政策窗口采购全量股吧主帖；
+- [ ] 回填第六章表 6-1、表 6-2。
 
-目前没有可报告的实证结果。不要根据本仓库中的空结果结构推断政策方向或显著性。
+主窗口 `[0, +1]` 等权 CAR：A +1.14%、B +1.81%、C −4.18%、D −0.39%、E +0.16%、F +0.18%。五项核心事件中 A、B 为正、C 为负，D 与 E 在当日不显著；E 的反应后移至次日。同一事件的个股异常收益高度同向，表内 t 值只能作描述性参考，口径、稳健性与限制见 [`docs/event-study-report.md`](docs/event-study-report.md)，过程决定见 [`docs/session-log-2026-11-21.md`](docs/session-log-2026-11-21.md)。
+
+本仓库只保存可复现的分析代码与文档，不保存论文稿、结果工作簿与授权数据。
 
 ## 政策事件
 
@@ -86,11 +88,25 @@
 ├── config/
 │   └── events.csv
 ├── data/
-│   └── README.md
+│   ├── README.md
+│   └── reference/
+│       └── stock_names.csv
 ├── docs/
 │   ├── research-design.md
-│   └── workflow.md
+│   ├── workflow.md
+│   ├── event-study-report.md
+│   ├── session-log-2026-11-21.md
+│   └── figures/
+│       ├── fig5_1_car_curves.png
+│       └── fig5_2_car_bar.png
 ├── src/
+│   ├── build_daily_panel.py
+│   ├── build_sample.py
+│   ├── event_study_main.py
+│   ├── build_event_results.py
+│   ├── build_panel_xlsx.py
+│   ├── fetch_stock_names.py
+│   ├── fill_missing_names.py
 │   ├── event_study.py
 │   └── text_pipeline.py
 └── requirements.txt
@@ -106,15 +122,16 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-按[`data/README.md`](data/README.md)准备本地数据。
-
-运行事件研究：
+按[`data/README.md`](data/README.md)准备本地数据。样本构建与事件研究的完整流程：
 
 ```bash
-python src/event_study.py \
-  --stocks data/raw/TRD_Dalyr.xlsx \
-  --market data/raw/TRD_Cndalym.xlsx
+python src/build_daily_panel.py    # 合并两张 CSMAR 表，生成日度面板
+python src/build_sample.py         # 核定公司—事件样本与剔除台账
+python src/event_study_main.py     # 估计 AR 与各窗口 CAR
+python src/build_event_results.py  # 生成结果工作簿与论文配图
 ```
+
+路径为脚本内置的 `data/processed/` 与 `outputs/`，不需要额外参数；`src/event_study.py` 是早期带命令行参数的独立版本，仅用于核对。
 
 运行股吧清洗和候选标签：
 
@@ -132,8 +149,10 @@ python src/text_pipeline.py \
 1. [`AGENTS.md`](AGENTS.md)
 2. [`docs/research-design.md`](docs/research-design.md)
 3. [`docs/workflow.md`](docs/workflow.md)
-4. [`data/README.md`](data/README.md)
-5. [`config/events.csv`](config/events.csv)
+4. [`docs/event-study-report.md`](docs/event-study-report.md)
+5. [`docs/session-log-2026-11-21.md`](docs/session-log-2026-11-21.md)
+6. [`data/README.md`](data/README.md)
+7. [`config/events.csv`](config/events.csv)
 
 优先任务是数据验证和可复现计算，不是补写“预期结果”。任何新增分析都必须保留事件日、窗口、样本剔除和字段来源记录。
 
